@@ -132,6 +132,12 @@ public class Main extends Application {
         btnExit.setOnAction(event -> {
             primaryStage.hide();
         });
+
+        btnRetry.setOnAction(event -> {
+            textYear.setText("");
+            textGender.setText("");
+            textName.setText("");
+        });
     }
 
     public void generateAlert(Alert.AlertType type, String title, String header, String message){
