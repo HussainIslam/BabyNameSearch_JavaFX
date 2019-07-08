@@ -79,11 +79,11 @@ public class Main extends Application {
                     throw new WrongYearException();
                 }
 
-                gender = textGender.getText();
+                gender = textGender.getText().toLowerCase();
                 if (gender.length() > 1){
                     throw new WrongGenderException();
                 }
-                if(!(gender.charAt(0) == 'M' || gender.charAt(0) == 'm' || gender.charAt(0) == 'F' || gender.charAt(0) == 'f')){
+                if(!(gender.charAt(0) == 'm' || gender.charAt(0) == 'f')){
                     throw new WrongGenderException();
                 }
 
@@ -97,7 +97,7 @@ public class Main extends Application {
                     for(int i = 0; i < tokens.length; i++){
                         tokens[i] = tokens[i].trim();
                     }
-                    if(gender.charAt(0) == 'M' || gender.charAt(0) == 'm'){
+                    if(gender.charAt(0) == 'm'){
                         if(tokens[1].equals(name)){
                             rank = tokens[0];
                         }
@@ -112,7 +112,7 @@ public class Main extends Application {
                     throw new NameNotFoundException();
                 }
                 else{
-                    outputText.setText((gender.charAt(0) == 'M' || gender.charAt(0) == 'm' ? "Boy " : "Girl ")
+                    outputText.setText((gender.charAt(0) == 'm' ? "Boy " : "Girl ")
                                         +"name " +name +" is ranked # " +rank +" in " + year +" year");
 
                 }
