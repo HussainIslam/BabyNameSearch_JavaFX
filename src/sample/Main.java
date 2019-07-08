@@ -9,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.*;
@@ -17,9 +18,11 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+        VBox mainPane = new VBox();
         GridPane pane = new GridPane();
+        mainPane.getChildren().add(pane);
         pane.setAlignment(Pos.CENTER);
-        pane.setPrefWidth(400);
+        pane.setMaxWidth(250);
         pane.setHgap(10);
         pane.setVgap(10);
 
@@ -42,10 +45,11 @@ public class Main extends Application {
         GridPane.setColumnSpan(outputText, 2);
 
         HBox buttons = new HBox();
+        //buttons.setPrefWidth(380);
         GridPane.setColumnSpan(buttons, 2);
         buttons.setSpacing(10);
         buttons.setAlignment(Pos.CENTER);
-        pane.add(buttons, 0, 4);
+        mainPane.getChildren().add(buttons);
 
 
         Button btnSubmitQuery = new Button("Submit Query");
@@ -121,7 +125,7 @@ public class Main extends Application {
 
         primaryStage.setTitle("Search Name Ranging Application");
         primaryStage.setResizable(false);
-        primaryStage.setScene(new Scene(pane));
+        primaryStage.setScene(new Scene(mainPane, 350, 250));
         primaryStage.show();
 
         btnExit.setOnAction(event -> {
