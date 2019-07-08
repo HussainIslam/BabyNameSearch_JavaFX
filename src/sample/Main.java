@@ -95,15 +95,15 @@ public class Main extends Application {
                 while((line = bis.readLine()) != null){
                     String[] tokens = line.split("\t");
                     for(int i = 0; i < tokens.length; i++){
-                        tokens[i] = tokens[i].trim();
+                        tokens[i] = tokens[i].trim().toLowerCase();
                     }
                     if(gender.charAt(0) == 'm'){
-                        if(tokens[1].equals(name)){
+                        if(tokens[1].equals(name.toLowerCase())){
                             rank = tokens[0];
                         }
                     }
                     else{
-                        if(tokens[3].equals(name)){
+                        if(tokens[3].equals(name.toLowerCase())){
                             rank = tokens[0];
                         }
                     }
