@@ -1,19 +1,16 @@
 package sample;
 
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
+import java.io.*;
 
 public class Main extends Application {
 
@@ -55,19 +52,42 @@ public class Main extends Application {
 
 
         btnSubmitQuery.setOnAction(e ->{
-            try{
-                int year = Integer.parseInt(textYear.getText());
+            int year;
+            char gender;
+            String name;
+            try {
+                year = Integer.parseInt(textYear.getText());
                 if(year < 2001 || year > 2010){
-                    throw new Exception("Wrong year");
+                    throw new WrongYearException();
                 }
 
-                char gender = textGender.getText().charAt(0);
+                gender = textGender.getText().charAt(0);
                 if(!(gender == 'M' || gender == 'm' || gender == 'F' || gender == 'f')){
-                    throw new Exception("Gender didn't match");
+                    throw new WrongGenderException();
                 }
 
-                String name = textName.getText();
+                name = textName.getText();
+                Reader fileName = new FileReader("babynamesranking2001to2010/babynamesranking"+year+".txt");
+                BufferedReader bis = new BufferedReader(fileName);
+                String rank="";
+                String line;
+                while((line = bis.readLine()) != null){
+                    String[] tokens = line.split("\t");
+
+                    if (tokens[1].equals(name) || tokens[3].equals(name)){
+                        rank = tokens[0];
+                    }
+                }
+                System.out.println(rank);
+
+
                 System.out.println("Year: " +year +"Gender: " +gender + "Name: " +name);
+            }
+            catch (WrongYearException wye){
+                System.out.println("This is a wrong year");
+            }
+            catch (WrongGenderException wge){
+                System.out.println("The gender that is entered is wrong!");
             }
             catch (Exception ex){
                 System.out.println(ex.getMessage());
