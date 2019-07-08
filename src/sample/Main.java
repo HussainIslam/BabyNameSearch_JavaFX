@@ -29,10 +29,13 @@ public class Main extends Application {
         pane.setVgap(10);
 
         TextField textYear = new TextField();
+        textYear.setPromptText("Enter Year");
         textYear.setPrefWidth(100);
         TextField textGender = new TextField();
+        textGender.setPromptText("Enter Gender");
         textGender.setPrefWidth(50);
         TextField textName = new TextField();
+        textName.setPromptText("Enter Name");
         textName.setPrefWidth(100);
 
         pane.add(new Label("Enter the Year"), 0, 0);
