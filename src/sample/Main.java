@@ -32,10 +32,9 @@ public class Main extends Application {
         pane.add(new Label("Enter the Name: "), 0, 2);
         pane.add(textName, 1, 2);
 
-        Label output = new Label("Boy name Javiar is ranked # 190 in 2010 year");
-        pane.add(output, 0, 3);
-        GridPane.setColumnSpan(output, 2);
-
+        Label outputText = new Label("");
+        pane.add(outputText, 0, 3);
+        GridPane.setColumnSpan(outputText, 2);
 
         HBox buttons = new HBox();
         GridPane.setColumnSpan(buttons, 2);
@@ -56,6 +55,9 @@ public class Main extends Application {
             char gender;
             String name;
             try {
+                if(textYear.getText().equals("") || textName.equals("") || textGender.equals("")){
+                    throw new Exception();
+                }
                 year = Integer.parseInt(textYear.getText());
                 if(year < 2001 || year > 2010){
                     throw new WrongYearException();
@@ -73,15 +75,22 @@ public class Main extends Application {
                 String line;
                 while((line = bis.readLine()) != null){
                     String[] tokens = line.split("\t");
-
-                    if (tokens[1].equals(name) || tokens[3].equals(name)){
-                        rank = tokens[0];
+                    for(int i = 0; i < tokens.length; i++){
+                        tokens[i] = tokens[i].trim();
+                    }
+                    if(gender == 'M' || gender == 'm'){
+                        if(tokens[1].equals(name)){
+                            rank = tokens[0];
+                        }
+                    }
+                    else{
+                        if(tokens[3].equals(name)){
+                            rank = tokens[0];
+                        }
                     }
                 }
-                System.out.println(rank);
-
-
-                System.out.println("Year: " +year +"Gender: " +gender + "Name: " +name);
+                outputText.setText((gender == 'M' || gender == 'm' ? "Boy " : "Girl ")
+                                    +"name " +name +" is ranked # " +rank +" in " + year +" year");
             }
             catch (WrongYearException wye){
                 System.out.println("This is a wrong year");
