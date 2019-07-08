@@ -3,6 +3,7 @@ package sample;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -18,12 +19,16 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         GridPane pane = new GridPane();
         pane.setAlignment(Pos.CENTER);
+        pane.setPrefWidth(500);
         pane.setHgap(10);
         pane.setVgap(10);
 
         TextField textYear = new TextField();
+        textYear.setPrefWidth(100);
         TextField textGender = new TextField();
+        textGender.setPrefWidth(50);
         TextField textName = new TextField();
+        textName.setPrefWidth(100);
 
         pane.add(new Label("Enter the Year"), 0, 0);
         pane.add(textYear, 1, 0);
@@ -52,19 +57,22 @@ public class Main extends Application {
 
         btnSubmitQuery.setOnAction(e ->{
             int year;
-            char gender;
+            String gender;
             String name;
             try {
                 if(textYear.getText().equals("") || textName.equals("") || textGender.equals("")){
-                    throw new Exception();
+                    throw new EmptyInputException();
                 }
                 year = Integer.parseInt(textYear.getText());
                 if(year < 2001 || year > 2010){
                     throw new WrongYearException();
                 }
 
-                gender = textGender.getText().charAt(0);
-                if(!(gender == 'M' || gender == 'm' || gender == 'F' || gender == 'f')){
+                gender = textGender.getText();
+                if (gender.length() > 1){
+                    throw new WrongGenderException();
+                }
+                if(!(gender.charAt(0) == 'M' || gender.charAt(0) == 'm' || gender.charAt(0) == 'F' || gender.charAt(0) == 'f')){
                     throw new WrongGenderException();
                 }
 
@@ -78,7 +86,7 @@ public class Main extends Application {
                     for(int i = 0; i < tokens.length; i++){
                         tokens[i] = tokens[i].trim();
                     }
-                    if(gender == 'M' || gender == 'm'){
+                    if(gender.charAt(0) == 'M' || gender.charAt(0) == 'm'){
                         if(tokens[1].equals(name)){
                             rank = tokens[0];
                         }
@@ -89,17 +97,24 @@ public class Main extends Application {
                         }
                     }
                 }
-                outputText.setText((gender == 'M' || gender == 'm' ? "Boy " : "Girl ")
+                outputText.setText((gender.charAt(0) == 'M' || gender.charAt(0) == 'm' ? "Boy " : "Girl ")
                                     +"name " +name +" is ranked # " +rank +" in " + year +" year");
+
+                Button btnRetry = new Button("Try Again");
+                btnRetry.setPrefWidth(100);
+                buttons.getChildren().add(btnRetry);
+            }
+            catch (EmptyInputException eix){
+                this.generateAlert(Alert.AlertType.WARNING, "Warning!", "Empty Fields", "Please enter values in all the fields");
             }
             catch (WrongYearException wye){
-                System.out.println("This is a wrong year");
+                this.generateAlert(Alert.AlertType.ERROR, "Error!!!", "Invalid Year", "Please enter a year between 2001 and 2010");
             }
             catch (WrongGenderException wge){
-                System.out.println("The gender that is entered is wrong!");
+                this.generateAlert(Alert.AlertType.ERROR, "Error!!!", "Invalid Gender", "Please enter (M/m) for male or (F/f) for female");
             }
             catch (Exception ex){
-                System.out.println(ex.getMessage());
+                this.generateAlert(Alert.AlertType.ERROR, "Error!!!", "Unexpected Error", ex.getMessage());
             }
         });
 
@@ -111,6 +126,15 @@ public class Main extends Application {
             primaryStage.hide();
         });
     }
+
+    public void generateAlert(Alert.AlertType type, String title, String header, String message){
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
 
 
     public static void main(String[] args) {
