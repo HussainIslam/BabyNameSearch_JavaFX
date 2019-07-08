@@ -19,6 +19,8 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         VBox mainPane = new VBox();
+        mainPane.setAlignment(Pos.CENTER);
+        mainPane.setSpacing(10);
         GridPane pane = new GridPane();
         mainPane.getChildren().add(pane);
         pane.setAlignment(Pos.CENTER);
@@ -56,7 +58,9 @@ public class Main extends Application {
         btnSubmitQuery.prefWidth(100);
         Button btnExit = new Button("Exit");
         btnExit.setPrefWidth(100);
-        buttons.getChildren().addAll(btnSubmitQuery, btnExit);
+        Button btnRetry = new Button("Try Again");
+        btnRetry.setPrefWidth(100);
+        buttons.getChildren().addAll(btnSubmitQuery, btnRetry, btnExit);
 
 
         btnSubmitQuery.setOnAction(e ->{
@@ -104,10 +108,7 @@ public class Main extends Application {
                 outputText.setText((gender.charAt(0) == 'M' || gender.charAt(0) == 'm' ? "Boy " : "Girl ")
                                     +"name " +name +" is ranked # " +rank +" in " + year +" year");
 
-                Button btnRetry = new Button("Try Again");
-                btnRetry.setPrefWidth(100);
-                buttons.getChildren().clear();
-                buttons.getChildren().addAll(btnSubmitQuery, btnRetry, btnExit);
+
             }
             catch (EmptyInputException eix){
                 this.generateAlert(Alert.AlertType.WARNING, "Warning!", "Empty Fields", "Please enter values in all the fields");
