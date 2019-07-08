@@ -24,7 +24,7 @@ public class Main extends Application {
         GridPane pane = new GridPane();
         mainPane.getChildren().add(pane);
         pane.setAlignment(Pos.CENTER);
-        pane.setMaxWidth(250);
+        pane.setPrefWidth(250);
         pane.setHgap(10);
         pane.setVgap(10);
 
@@ -44,11 +44,11 @@ public class Main extends Application {
 
         Label outputText = new Label("");
         pane.add(outputText, 0, 3);
-        GridPane.setColumnSpan(outputText, 2);
+        GridPane.setColumnSpan(outputText, 3);
 
         HBox buttons = new HBox();
         //buttons.setPrefWidth(380);
-        GridPane.setColumnSpan(buttons, 2);
+        GridPane.setColumnSpan(buttons, 3);
         buttons.setSpacing(10);
         buttons.setAlignment(Pos.CENTER);
         mainPane.getChildren().add(buttons);
@@ -105,10 +105,21 @@ public class Main extends Application {
                         }
                     }
                 }
-                outputText.setText((gender.charAt(0) == 'M' || gender.charAt(0) == 'm' ? "Boy " : "Girl ")
-                                    +"name " +name +" is ranked # " +rank +" in " + year +" year");
+                if(rank.equals("")){
+                    throw new NameNotFoundException();
+                }
+                else{
+                    outputText.setText((gender.charAt(0) == 'M' || gender.charAt(0) == 'm' ? "Boy " : "Girl ")
+                                        +"name " +name +" is ranked # " +rank +" in " + year +" year");
 
+                }
 
+            }
+            catch (NameNotFoundException nnfe){
+                textYear.setText("");
+                textGender.setText("");
+                textName.setText("");
+                this.generateAlert(Alert.AlertType.INFORMATION, "Information", "Not found", "The queried name was not found in database");
             }
             catch (EmptyInputException eix){
                 this.generateAlert(Alert.AlertType.WARNING, "Warning!", "Empty Fields", "Please enter values in all the fields");
