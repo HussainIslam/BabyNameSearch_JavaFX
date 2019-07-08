@@ -19,7 +19,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         GridPane pane = new GridPane();
         pane.setAlignment(Pos.CENTER);
-        pane.setPrefWidth(500);
+        pane.setPrefWidth(400);
         pane.setHgap(10);
         pane.setVgap(10);
 
@@ -102,7 +102,8 @@ public class Main extends Application {
 
                 Button btnRetry = new Button("Try Again");
                 btnRetry.setPrefWidth(100);
-                buttons.getChildren().add(btnRetry);
+                buttons.getChildren().clear();
+                buttons.getChildren().addAll(btnSubmitQuery, btnRetry, btnExit);
             }
             catch (EmptyInputException eix){
                 this.generateAlert(Alert.AlertType.WARNING, "Warning!", "Empty Fields", "Please enter values in all the fields");
@@ -119,7 +120,8 @@ public class Main extends Application {
         });
 
         primaryStage.setTitle("Search Name Ranging Application");
-        primaryStage.setScene(new Scene(pane, 300, 275));
+        primaryStage.setResizable(false);
+        primaryStage.setScene(new Scene(pane));
         primaryStage.show();
 
         btnExit.setOnAction(event -> {
